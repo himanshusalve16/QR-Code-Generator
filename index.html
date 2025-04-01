@@ -5,32 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <div class="theme-toggle">
+        <button id="theme-btn"><i class="fas fa-moon"></i></button>
+    </div>
+
     <div class="container">
         <header>
             <h1>QR Code Generator</h1>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="generate">Generate</button>
+                <button class="tab-btn" data-tab="scan">Scan QR</button>
+                <button class="tab-btn" data-tab="history">History</button>
+            </div>
         </header>
+        
         <main>
-            <div class="input-section">
-                <input type="text" id="qr-text" placeholder="Enter URL or text">
-                <div class="buttons">
-                    <button id="generate-btn">Generate QR Code</button>
+            <div class="tab-content active" id="generate-tab">
+                <div class="input-section">
+                    <input type="text" id="qr-text" placeholder="Enter URL or text">
+                    
+                    <div class="customization-options">
+                        <h3>Customize Your QR Code</h3>
+                        
+                        <div class="option-group">
+                            <label>Foreground Color</label>
+                            <input type="color" id="foreground-color" value="#000000">
+                        </div>
+                        
+                        <div class="option-group">
+                            <label>Background Color</label>
+                            <input type="color" id="background-color" value="#FFFFFF">
+                        </div>
+                        
+                        <div class="option-group">
+                            <label>Dot Style</label>
+                            <select id="dot-style">
+                                <option value="square">Square</option>
+                                <option value="dots">Dots</option>
+                                <option value="rounded" selected>Rounded</option>
+                                <option value="classy">Classy</option>
+                                <option value="classy-rounded">Classy Rounded</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label>Corner Style</label>
+                            <select id="corner-style">
+                                <option value="square">Square</option>
+                                <option value="dot">Dot</option>
+                                <option value="extra-rounded" selected>Extra Rounded</option>
+                            </select>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label>Size (px)</label>
+                            <input type="range" id="qr-size" min="150" max="400" value="250">
+                            <span id="size-value">250 x 250</span>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label>Add Logo</label>
+                            <input type="file" id="logo-upload" accept="image/*">
+                        </div>
+                    </div>
+                    
+                    <div class="buttons">
+                        <button id="generate-btn">Generate QR Code</button>
+                    </div>
+                </div>
+                
+                <div class="result-section" id="result-section">
+                    <div id="qr-container" class="hidden">
+                        <div id="qr-code"></div>
+                        <div class="download-options">
+                            <button id="download-btn" class="hidden">Download</button>
+                            <div class="format-options hidden" id="format-options">
+                                <button data-format="png">PNG</button>
+                                <button data-format="jpeg">JPEG</button>
+                                <button data-format="svg">SVG</button>
+                                <button data-format="webp">WEBP</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="result-section" id="result-section">
-                <div id="qr-container" class="hidden">
-                    <div id="qr-code"></div>
-                    <button id="download-btn" class="hidden">Download QR Code</button>
+            
+            <div class="tab-content" id="scan-tab">
+                <div class="camera-section">
+                    <h3>Scan QR Code with Camera</h3>
+                    <div id="camera-container">
+                        <video id="qr-video" playsinline></video>
+                    </div>
+                    <button id="start-camera">Start Camera</button>
+                    <div id="scan-result"></div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="history-tab">
+                <h3>QR Code History</h3>
+                <div id="history-container">
+                    <!-- QR code history items will be added here -->
+                    <p class="empty-history">Your generated QR codes will appear here</p>
                 </div>
             </div>
         </main>
+        
         <footer>
-            <p>Create scannable QR codes instantly</p>
+            <p>Create and customize scannable QR codes instantly</p>
         </footer>
     </div>
 
     <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html> 
