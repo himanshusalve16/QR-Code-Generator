@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const downloadBtn = document.getElementById('download-btn');
     const formatOptions = document.getElementById('format-options');
     const themeBtn = document.getElementById('theme-btn');
+    const socialShare = document.getElementById('social-share');
+    const currentYearEl = document.getElementById('current-year');
     
     // DOM elements - Tabs
     const tabBtns = document.querySelectorAll('.tab-btn');
@@ -35,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let html5QrScanner = null;
     let isScanning = false;
     let qrCodeTimer = null;
+    let lastGeneratedQrImage = null; // Store the last generated QR code for sharing
     
     // QR code styling configuration
     const qrCode = new QRCodeStyling({
@@ -145,6 +148,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Social Share Buttons
+    document.querySelectorAll('.social-share button').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const platform = this.classList[0].replace('share-', '');
+            shareQRCode(platform);
+        });
+    });
+    
     // Start camera for scanning
     startCameraBtn.addEventListener('click', toggleScanner);
     
@@ -162,12 +173,26 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Render QR history
         renderQRHistory();
+        
+        // Set current year in footer
+        currentYearEl.textContent = new Date().getFullYear();
+        
+        // Add animation classes for a more dynamic UI
+        document.querySelectorAll('.customization-options, .buttons, .tab-btn').forEach(el => {
+            el.classList.add('animate__animated', 'animate__fadeIn');
+        });
     }
     
     function toggleTheme() {
         const isDarkMode = document.body.classList.toggle('dark-mode');
         themeBtn.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
         localStorage.setItem('darkMode', isDarkMode);
+        
+        // Add a subtle animation effect when switching themes
+        document.body.style.transition = 'background-color 0.5s ease';
+        setTimeout(() => {
+            document.body.style.transition = '';
+        }, 500);
     }
     
     function updateQRCode() {
@@ -200,6 +225,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 10);
         
         downloadBtn.classList.remove('hidden');
+        socialShare.classList.remove('hidden');
+        
+        // Create an image for social sharing
+        createSharableImage();
     }
     
     function generateQRCode() {
@@ -319,10 +348,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleScanner() {
         if (isScanning) {
             stopScanner();
-            startCameraBtn.textContent = 'Start Camera';
+            startCameraBtn.innerHTML = '<i class="fas fa-video"></i> Start Camera';
         } else {
             startScanner();
-            startCameraBtn.textContent = 'Stop Camera';
+            startCameraBtn.innerHTML = '<i class="fas fa-video-slash"></i> Stop Camera';
         }
         isScanning = !isScanning;
     }
@@ -365,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function() {
         scanResult.innerHTML = `
             <p><strong>Scanned QR Code:</strong></p>
             <p>${decodedText}</p>
-            <button id="use-scanned-result">Use This Text</button>
+            <button id="use-scanned-result"><i class="fas fa-check"></i> Use This Text</button>
         `;
         
         document.getElementById('use-scanned-result').addEventListener('click', function() {
@@ -383,6 +412,55 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function onScanFailure(error) {
         // Do nothing on failure - camera is still scanning
+    }
+    
+    // Create a sharable image from the QR code
+    function createSharableImage() {
+        qrCode.getRawData(format = 'png').then(data => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                lastGeneratedQrImage = e.target.result;
+            };
+            reader.readAsDataURL(data);
+        });
+    }
+    
+    // Share QR code to social media
+    function shareQRCode(platform) {
+        const text = qrText.value.trim();
+        const shareText = encodeURIComponent(`Check out this QR code I created: ${text}`);
+        let shareUrl = '';
+        
+        // If we have an image to share
+        if (lastGeneratedQrImage) {
+            // For real implementation, you would need to upload the image to a server first
+            // and get a public URL. Here we demonstrate the structure only.
+            
+            // In a production app, this would be the URL to your uploaded image
+            const imageUrl = encodeURIComponent(window.location.href);
+            
+            switch (platform) {
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${imageUrl}&quote=${shareText}`;
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?text=${shareText}&url=${imageUrl}`;
+                    break;
+                case 'whatsapp':
+                    shareUrl = `https://wa.me/?text=${shareText} ${imageUrl}`;
+                    break;
+                case 'linkedin':
+                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${imageUrl}`;
+                    break;
+            }
+            
+            // Open sharing dialog in a new window
+            if (shareUrl) {
+                window.open(shareUrl, '_blank', 'width=600,height=400');
+            }
+        } else {
+            alert("Please generate a QR code first.");
+        }
     }
     
     // Utility function for debouncing
