@@ -56,7 +56,7 @@ A powerful, interactive QR code generator with advanced customization options, c
 Simply clone this repository and open the `index.html` file in a web browser.
 
 ```bash
-git clone <repository-url>
+git clone <https://github.com/himanshusalve16/QR-Code-Generator.git>
 cd qr-code-generator
 # Open index.html in your browser
 ```
