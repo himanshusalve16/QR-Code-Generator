@@ -63,6 +63,37 @@ cd qr-code-generator
 
 No server or build process is required.
 
+## Deployment
+
+### Deploying to Vercel
+
+This project is ready to be deployed on Vercel. Follow these steps:
+
+1. **Install Vercel CLI** (optional)
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Deploy using Vercel CLI** (if installed)
+   ```bash
+   vercel
+   ```
+
+3. **Or deploy directly from the Vercel Dashboard**
+   - Create an account on [Vercel](https://vercel.com)
+   - Import your GitHub repository
+   - Vercel will automatically detect the configuration and deploy
+
+4. **Environment Setup**
+   - No special environment variables are needed
+   - Camera functionality requires HTTPS, which Vercel provides by default
+
+### Important Notes for Deployment
+
+- Camera functionality (QR scanning) requires HTTPS to work
+- Vercel automatically provides HTTPS for all deployments
+- The app is fully client-side, so no server configuration is needed
+
 ## Browser Compatibility
 
 This application works best in modern browsers with camera access capabilities:

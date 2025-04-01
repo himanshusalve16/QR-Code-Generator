@@ -1,0 +1,19 @@
+{
+  "name": "qr-code-generator",
+  "version": "1.0.0",
+  "description": "Advanced QR code generator with customization options",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve"
+  },
+  "keywords": [
+    "qr-code",
+    "generator",
+    "javascript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+} 
