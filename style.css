@@ -1,0 +1,135 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --primary-color: #3498db;
+    --primary-hover: #2980b9;
+    --bg-color: #f9f9f9;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --border-radius: 8px;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+header {
+    text-align: center;
+    padding: 25px 20px;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+main {
+    padding: 30px 20px;
+}
+
+.input-section {
+    margin-bottom: 25px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    margin-bottom: 15px;
+    transition: var(--transition);
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+button:hover {
+    background-color: var(--primary-hover);
+}
+
+.result-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#qr-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#qr-code {
+    width: 100%;
+    max-width: 250px;
+    height: 250px;
+}
+
+#download-btn {
+    margin-top: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    color: #666;
+    font-size: 14px;
+    border-top: 1px solid #eee;
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        border-radius: 0;
+    }
+    
+    #qr-code {
+        max-width: 200px;
+        height: 200px;
+    }
+} 
